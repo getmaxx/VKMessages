@@ -128,7 +128,7 @@
     keyboardFrame = keyboardRect;
     if ([self.messageTextField isFirstResponder]) {
         //[staticMessageField resignFirstResponder];
-        //[messageField becomeFirstResponder];
+        [messageField becomeFirstResponder];
     }
 
     
