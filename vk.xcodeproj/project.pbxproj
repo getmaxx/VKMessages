@@ -13,6 +13,12 @@
 		29D2F6F81BB9DA9800789B04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29D2F6F61BB9DA9800789B04 /* Main.storyboard */; };
 		29D2F6FA1BB9DA9800789B04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 29D2F6F91BB9DA9800789B04 /* Assets.xcassets */; };
 		29D2F6FD1BB9DA9800789B04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 29D2F6FB1BB9DA9800789B04 /* LaunchScreen.storyboard */; };
+		29D2F7061BB9DAB300789B04 /* VKSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29D2F7041BB9DAB300789B04 /* VKSdk.framework */; settings = {ASSET_TAGS = (); }; };
+		29D2F7071BB9DAB300789B04 /* VKSdkResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 29D2F7051BB9DAB300789B04 /* VKSdkResources.bundle */; settings = {ASSET_TAGS = (); }; };
+		29D2F70A1BB9EE0200789B04 /* IVFriendsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D2F7091BB9EE0200789B04 /* IVFriendsVC.m */; settings = {ASSET_TAGS = (); }; };
+		29D2F70D1BB9EE3700789B04 /* IVServerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 29D2F70C1BB9EE3700789B04 /* IVServerManager.m */; settings = {ASSET_TAGS = (); }; };
+		29E56A921BBB3898005C0C70 /* IVUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E56A911BBB3898005C0C70 /* IVUser.m */; settings = {ASSET_TAGS = (); }; };
+		29E56A961BBB7BCC005C0C70 /* IVMessageVCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29E56A951BBB7BCC005C0C70 /* IVMessageVCViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +32,16 @@
 		29D2F6F91BB9DA9800789B04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		29D2F6FC1BB9DA9800789B04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		29D2F6FE1BB9DA9800789B04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		29D2F7041BB9DAB300789B04 /* VKSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VKSdk.framework; sourceTree = "<group>"; };
+		29D2F7051BB9DAB300789B04 /* VKSdkResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = VKSdkResources.bundle; sourceTree = "<group>"; };
+		29D2F7081BB9EE0200789B04 /* IVFriendsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVFriendsVC.h; sourceTree = "<group>"; };
+		29D2F7091BB9EE0200789B04 /* IVFriendsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVFriendsVC.m; sourceTree = "<group>"; };
+		29D2F70B1BB9EE3700789B04 /* IVServerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVServerManager.h; sourceTree = "<group>"; };
+		29D2F70C1BB9EE3700789B04 /* IVServerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVServerManager.m; sourceTree = "<group>"; };
+		29E56A901BBB3898005C0C70 /* IVUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVUser.h; sourceTree = "<group>"; };
+		29E56A911BBB3898005C0C70 /* IVUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVUser.m; sourceTree = "<group>"; };
+		29E56A941BBB7BCC005C0C70 /* IVMessageVCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVMessageVCViewController.h; sourceTree = "<group>"; };
+		29E56A951BBB7BCC005C0C70 /* IVMessageVCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVMessageVCViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				29D2F7061BB9DAB300789B04 /* VKSdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +75,7 @@
 		29D2F6EC1BB9DA9800789B04 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				29E56A931BBB38A0005C0C70 /* Model */,
 				29D2F6F01BB9DA9800789B04 /* AppDelegate.h */,
 				29D2F6F11BB9DA9800789B04 /* AppDelegate.m */,
 				29D2F6F31BB9DA9800789B04 /* ViewController.h */,
@@ -67,6 +85,10 @@
 				29D2F6FB1BB9DA9800789B04 /* LaunchScreen.storyboard */,
 				29D2F6FE1BB9DA9800789B04 /* Info.plist */,
 				29D2F6ED1BB9DA9800789B04 /* Supporting Files */,
+				29D2F7081BB9EE0200789B04 /* IVFriendsVC.h */,
+				29D2F7091BB9EE0200789B04 /* IVFriendsVC.m */,
+				29E56A941BBB7BCC005C0C70 /* IVMessageVCViewController.h */,
+				29E56A951BBB7BCC005C0C70 /* IVMessageVCViewController.m */,
 			);
 			path = vk;
 			sourceTree = "<group>";
@@ -74,9 +96,22 @@
 		29D2F6ED1BB9DA9800789B04 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				29D2F7041BB9DAB300789B04 /* VKSdk.framework */,
+				29D2F7051BB9DAB300789B04 /* VKSdkResources.bundle */,
 				29D2F6EE1BB9DA9800789B04 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		29E56A931BBB38A0005C0C70 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				29D2F70B1BB9EE3700789B04 /* IVServerManager.h */,
+				29D2F70C1BB9EE3700789B04 /* IVServerManager.m */,
+				29E56A901BBB3898005C0C70 /* IVUser.h */,
+				29E56A911BBB3898005C0C70 /* IVUser.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +175,7 @@
 				29D2F6FD1BB9DA9800789B04 /* LaunchScreen.storyboard in Resources */,
 				29D2F6FA1BB9DA9800789B04 /* Assets.xcassets in Resources */,
 				29D2F6F81BB9DA9800789B04 /* Main.storyboard in Resources */,
+				29D2F7071BB9DAB300789B04 /* VKSdkResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,8 +187,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				29D2F6F51BB9DA9800789B04 /* ViewController.m in Sources */,
+				29E56A961BBB7BCC005C0C70 /* IVMessageVCViewController.m in Sources */,
+				29E56A921BBB3898005C0C70 /* IVUser.m in Sources */,
 				29D2F6F21BB9DA9800789B04 /* AppDelegate.m in Sources */,
 				29D2F6EF1BB9DA9800789B04 /* main.m in Sources */,
+				29D2F70D1BB9EE3700789B04 /* IVServerManager.m in Sources */,
+				29D2F70A1BB9EE0200789B04 /* IVFriendsVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +302,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/vk",
+				);
 				INFOPLIST_FILE = vk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = iv.vk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -273,7 +318,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/vk",
+				);
 				INFOPLIST_FILE = vk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = iv.vk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,6 +349,7 @@
 				29D2F7031BB9DA9800789B04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
