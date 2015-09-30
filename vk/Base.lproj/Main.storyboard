@@ -61,7 +61,7 @@
                                             <rect key="frame" x="228" y="110" width="97" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="18"/>
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -70,7 +70,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JeV-w8-Y70">
                                             <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="r">
+                                            <state key="normal" title="Отпр.">
                                                 <color key="titleColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <connections>

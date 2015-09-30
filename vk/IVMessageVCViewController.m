@@ -12,10 +12,11 @@
 
 @interface IVMessageVCViewController () <UITextFieldDelegate> {
     
-    CGRect keyboardFrame;
-    UIToolbar* test;
-    UITextField* messageField;
-    UITextField* staticMessageField;
+    CGRect          keyboardFrame;
+    UIToolbar*      test;
+    UITextField*    messageField;
+    UITextField*    staticMessageField;
+    UIColor*        tint;
     
 }
 
@@ -25,9 +26,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    
+    //self.view.backgroundColor = self.sendMessage.tintColor;
+    
+    
+    tint = self.navigationController.navigationBar.barTintColor;
     self.messageTextField.delegate = self;
+    //self.messageTextField.frame.size.width = 220;
+    [self.messageTextField setFrame: CGRectMake(self.messageTextField.frame.origin.x,
+                                                self.messageTextField.frame.origin.y,
+                                                220,
+                                                30)];
+    [self.messageTextField setFont: messageField.font];
+    
     self.title = [NSString stringWithFormat: @"%@ %@", _friendToMessage.firstName, _friendToMessage.lastName];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(keyboardDidChanged:)
                                                  name: UIKeyboardWillChangeFrameNotification
@@ -46,6 +60,7 @@
                                                                    style: UIBarButtonItemStylePlain
                                                                   target: self
                                                                   action: @selector(sendMessageAction:)];
+    [sendButton setTintColor: tint];
     
     
     UIBarButtonItem *txtfieldItem=[[UIBarButtonItem alloc]initWithCustomView: messageField];
