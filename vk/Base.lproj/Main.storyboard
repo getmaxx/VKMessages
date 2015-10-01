@@ -13,6 +13,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Поиск" id="YJ7-ft-4HN">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
                         <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="oq3-Sa-xPx">
                             <rect key="frame" x="0.0" y="172" width="600" height="128"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -35,6 +40,7 @@
                     <navigationItem key="navigationItem" title="Друзья" id="Dxv-9w-gZK"/>
                     <connections>
                         <outlet property="imgVIew" destination="oq3-Sa-xPx" id="j0P-mz-gKV"/>
+                        <outlet property="searchBar" destination="YJ7-ft-4HN" id="mDr-Y7-Gip"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d6e-cI-Cw5" userLabel="First Responder" sceneMemberID="firstResponder"/>

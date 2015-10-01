@@ -27,10 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-    //self.view.backgroundColor = self.sendMessage.tintColor;
-    
-    
     tint = self.navigationController.navigationBar.barTintColor;
     self.messageTextField.delegate = self;
     //self.messageTextField.frame.size.width = 220;

@@ -10,5 +10,6 @@
 
 @interface IVFriendsVC : UITableViewController
 @property (weak, nonatomic) IBOutlet UIImageView *imgVIew;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

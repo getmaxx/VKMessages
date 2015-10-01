@@ -151,11 +151,7 @@
             user.photo = [dict objectForKey: @"photo_100"];
             user.isOnline = [dict objectForKey: @"online"];
             //NSLog(@"%@ %@", user.firstName, user.lastName);
-            /*NSURL *imgUrl = [NSURL URLWithString: user.photo];
-            NSData *data = [NSData dataWithContentsOfURL: imgUrl];
-            UIImage *img = [[UIImage alloc] initWithData: data];
-            user.img = img;*/
-            //NSLog(@"%@", user.isOnline);
+            //[self saveOrLoadPictureOfFriendWithID: user.idOfUser andPhoto: user.photo];
             
             [friendsArray addObject: user];
         }
@@ -166,6 +162,28 @@
     });
     
 }
+
+- (void) saveOrLoadPictureOfFriendWithID: (NSNumber*) friendID andPhoto: (NSString*) photo {
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        IVUser* user = [[IVUser alloc] init];
+        
+        NSString* idOfUserKey = [NSString stringWithFormat: @"%@", user.idOfUser];
+        
+        if (![user.photo isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey: idOfUserKey]]) {
+            
+            NSURL *imgUrl = [NSURL URLWithString: user.photo];
+            NSData *data = [NSData dataWithContentsOfURL: imgUrl];
+            UIImage *img = [[UIImage alloc] initWithData: data];
+            user.img = img;
+            [[NSUserDefaults standardUserDefaults] setObject: user.photo forKey: idOfUserKey];
+            NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            [UIImageJPEGRepresentation(img, 1.0) writeToFile:[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", idOfUserKey, @"jpg"]] options:NSAtomicWrite error:nil];
+            
+        }
+
+    });
+    }
 
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

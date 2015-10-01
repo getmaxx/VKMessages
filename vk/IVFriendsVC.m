@@ -35,6 +35,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
         [IVServerManager sharedManager];
+        [self getAvatars];
 
     });
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -50,7 +51,36 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
                                              selector: @selector(getFriendsFromServer)
                                                  name: @"iv.friendsSetUp"
                                                object: nil];*/
+    
+    
+    
+}
 
+- (void) getAvatars {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        //IVUser* user = [[IVUser alloc] init];
+        
+        for (IVUser* user in friends) {
+            NSString* idOfUserKey = [NSString stringWithFormat: @"%@", user.idOfUser];
+            
+            if (![user.photo isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey: idOfUserKey]]) {
+                
+                NSURL *imgUrl = [NSURL URLWithString: user.photo];
+                NSData *data = [NSData dataWithContentsOfURL: imgUrl];
+                UIImage *img = [[UIImage alloc] initWithData: data];
+                user.img = img;
+                [[NSUserDefaults standardUserDefaults] setObject: user.photo forKey: idOfUserKey];
+                NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                [UIImageJPEGRepresentation(img, 1.0) writeToFile:[documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", idOfUserKey, @"jpg"]] options:NSAtomicWrite error:nil];
+                
+            }
+
+        }
+        
+        
+    });
+    
+    [self reloadData];
     
 }
 
@@ -152,10 +182,10 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         cell.detailTextLabel.textColor = [UIColor grayColor];
         cell.detailTextLabel.text =[NSString stringWithFormat:@"%@", [user.isOnline isEqual: @1]? @"online": @" " ];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //cell.imageView.image = user.img;
-        });
         
+        NSString * documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        UIImage * result = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/%@.%@", documentsDirectory, user.idOfUser, @"jpg"]];
+        cell.imageView.image = result;
         
     }
     
@@ -177,6 +207,13 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     [self.navigationController pushViewController:vc animated:YES];
     
 }
+
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    [super touchesBegan:touches withEvent:event];
+    [self.searchBar resignFirstResponder];
+}
+
 
 /*
 // Override to support conditional editing of the table view.
