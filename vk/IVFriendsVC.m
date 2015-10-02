@@ -18,7 +18,9 @@
     NSMutableArray* arrayOfPhotos;
     NSMutableArray* filteredFriends;
     NSMutableArray* onlineFriends;
+    NSMutableArray* sourceForTableView;
     BOOL isFiltered;
+    UISegmentedControl *segmentedControl;
 }
 
 @end
@@ -32,13 +34,10 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    //self.navigationItem.rightBarButtonItem = self.addButtonItem;
+        
+    sourceForTableView = [NSMutableArray array];
     
     isFiltered = NO;
     self.searchBar.text = @"";
@@ -48,6 +47,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         [self getAvatars];
 
     });
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(configureFriendsArray)
                                                  name: @"iv.setProperty"
@@ -56,13 +56,8 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
                                              selector: @selector(getAvatars)
                                                  name: @"iv.friendsSetUp"
                                                object: nil];
-
-    /*[[NSNotificationCenter defaultCenter] addObserver: self
-                                             selector: @selector(getFriendsFromServer)
-                                                 name: @"iv.friendsSetUp"
-                                               object: nil];*/
     
-    [self getAvatars];
+    //[self getAvatars];
     
 }
 
@@ -81,21 +76,41 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
             numberOfOnlineFriends++;
         }
     }
-    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", numberOfOnlineFriendsString];
+    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", numberOfOnlineFriends];
     
     NSLog(@"ALL:%d  ONLINE:%d", [friends count], numberOfOnlineFriends);
     
-    NSArray *segItemsArray = [NSArray arrayWithObjects: numberOfFriends, onlineFriends, nil];
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:segItemsArray];
-    segmentedControl.frame = CGRectMake(0, 0, 250, 30);
+    NSArray *segItemsArray = [NSArray arrayWithObjects: numberOfFriends, numberOfOnlineFriendsString, nil];
+    segmentedControl = [[UISegmentedControl alloc] initWithItems:segItemsArray];
+    segmentedControl.frame = CGRectMake(0, 0, 260, 30);
     segmentedControl.selectedSegmentIndex = 0;
+    [segmentedControl addTarget: self
+                         action: @selector(segmentedControlValueChanged:)
+               forControlEvents: UIControlEventValueChanged];
+    
     UIBarButtonItem *segmentedControlButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)segmentedControl];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSArray *barArray = [NSArray arrayWithObjects: flexibleSpace, segmentedControlButtonItem, flexibleSpace, nil];
-    self.navigationController.toolbar.tintColor = self.navigationController.navigationBar.barTintColor;
+    self.navigationController.toolbar.tintColor = [UIColor grayColor];
     
     self.toolbarItems = barArray;
 
+}
+
+- (void) segmentedControlValueChanged: (id) sender {
+   
+    /*if (segmentedControl.selectedSegmentIndex == 1) {
+        dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+            [IVServerManager sharedManager];
+            [self getAvatars];
+            
+        });
+
+            }
+        else {
+            NSLog(@"all");
+        }*/
+    
 }
 
 - (void) getAvatars {
@@ -137,11 +152,6 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         [self.tableView reloadData];
     });
 
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) configureFriendsArray {
@@ -206,6 +216,16 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         }
     }
     NSLog(@"\n");
+    
+}
+
+- (void) configureOnlineFriendsArray {
+    
+    for (IVUser* user in friends) {
+        if ([user.isOnline isEqual: @1]) {
+            [onlineFriends addObject: user];
+        }
+    }
     
 }
 
@@ -274,7 +294,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         
         cell.textLabel.text = [NSString stringWithFormat :@"%@ %@ %@", user.lastName,
                                                                        user.firstName,
-                                                                       [user.isOnline isEqual: @1]? @"": @" "];
+                                                                       [user.isOnline isEqual: @1]? @"*": @" "];
         cell.detailTextLabel.textColor = [UIColor grayColor];
         cell.detailTextLabel.text =[NSString stringWithFormat:@"%@", [user.isOnline isEqual: @1]? @"online": @" " ];
         cell.detailTextLabel.textColor = [UIColor grayColor];
@@ -349,7 +369,10 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     }
 }
 
-
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 
 @end
