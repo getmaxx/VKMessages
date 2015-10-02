@@ -12,15 +12,24 @@
 #import "IVMessageVCViewController.h"
 
 @interface IVFriendsVC () <UISearchBarDelegate> {
+    
     NSMutableArray* friends;
     NSMutableArray* arrayOfGroups;
     NSMutableArray* arrayOfTitles;
     NSMutableArray* arrayOfPhotos;
+    
     NSMutableArray* filteredFriends;
+    
     NSMutableArray* onlineFriends;
+    NSMutableArray* onlineArrayOfGroups;
+    NSMutableArray* onlineArrayOfTitles;
+    
     NSMutableArray* sourceForTableView;
+    
     BOOL isFiltered;
+    
     UISegmentedControl *segmentedControl;
+    int currentSegment;
 }
 
 @end
@@ -36,7 +45,8 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-        
+    
+    currentSegment = 0;
     sourceForTableView = [NSMutableArray array];
     
     isFiltered = NO;
@@ -52,6 +62,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
                                              selector: @selector(configureFriendsArray)
                                                  name: @"iv.setProperty"
                                                object: nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(getAvatars)
                                                  name: @"iv.friendsSetUp"
@@ -70,20 +81,14 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     self.navigationItem.rightBarButtonItem = addFriendButton;
     
     NSString* numberOfFriends = [NSString stringWithFormat:@"%d друзей", [friends count]];
-    int numberOfOnlineFriends = 0;
-    for (IVUser* user in friends) {
-        if ([user.isOnline  isEqual: @1]) {
-            numberOfOnlineFriends++;
-        }
-    }
-    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", numberOfOnlineFriends];
+    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", [onlineFriends count]];
     
-    NSLog(@"ALL:%d  ONLINE:%d", [friends count], numberOfOnlineFriends);
+    //NSLog(@"ALL:%d  ONLINE:%d", [friends count], numberOfOnlineFriends);
     
     NSArray *segItemsArray = [NSArray arrayWithObjects: numberOfFriends, numberOfOnlineFriendsString, nil];
     segmentedControl = [[UISegmentedControl alloc] initWithItems:segItemsArray];
     segmentedControl.frame = CGRectMake(0, 0, 260, 30);
-    segmentedControl.selectedSegmentIndex = 0;
+    segmentedControl.selectedSegmentIndex = currentSegment;
     [segmentedControl addTarget: self
                          action: @selector(segmentedControlValueChanged:)
                forControlEvents: UIControlEventValueChanged];
@@ -99,23 +104,42 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (void) segmentedControlValueChanged: (id) sender {
    
-    /*if (segmentedControl.selectedSegmentIndex == 1) {
+    currentSegment = segmentedControl.selectedSegmentIndex;
+    self.searchBar.text = @"";
+   [onlineFriends removeAllObjects];
+    [filteredFriends removeAllObjects];
+    
+    if (segmentedControl.selectedSegmentIndex == 1) {
         dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-            [IVServerManager sharedManager];
+            [[IVServerManager sharedManager] getFriendsFromServer];
             [self getAvatars];
+            [self configureOnlineFriendsArray];
+            
+            //sourceForTableView = onlineFriends;
             
         });
-
+            //NSLog(@"1. online count %d", [onlineFriends count]);
             }
         else {
-            NSLog(@"all");
-        }*/
-    
+            dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+                [[IVServerManager sharedManager] getFriendsFromServer];
+                [self getAvatars];
+                [self configureFriendsArray];
+                
+                //sourceForTableView = friends;
+                
+            });
+
+            //NSLog(@"all");
+        }
+    //NSLog(@"2. online count %d", [onlineFriends count]);
+    [self reloadData];
 }
 
 - (void) getAvatars {
     
-    [self reloadData];
+    //NSLog(@"aa");
+    //[self reloadData];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //IVUser* user = [[IVUser alloc] init];
         
@@ -160,6 +184,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         arrayOfGroups = [NSMutableArray array];
         arrayOfTitles = [NSMutableArray array];
         arrayOfPhotos = [NSMutableArray array];
+        //sourceForTableView = friends;
         
         friends = [NSMutableArray arrayWithArray: [IVServerManager sharedManager].arrayOfFriends];
         NSArray *sortedFriends = [friends sortedArrayUsingDescriptors: @[[NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending: true]]];
@@ -186,18 +211,10 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
         }
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"iv.friendsSetUp" object:nil];
-        for (NSMutableArray* array in arrayOfGroups) {
-            for (IVUser* user in array) {
-                
-                //[arrayOfPhotos addObject: img];
-             
-             }
-            //NSLog(@"%d", [array count]);
-        }
         
-        //NSLog(@"FINAL %d", [arrayOfTitles count]);
+        [self configureOnlineFriendsArray];
         
-         [self setUpUI];
+        [self setUpUI];
     });
     
    
@@ -205,14 +222,22 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (void) configureFilteredFriendsArray {
     
+    NSArray* source = [NSArray array];
+    
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        source = friends;
+    } else {
+        source = onlineFriends;
+    }
+    
     filteredFriends = [NSMutableArray array];
     NSString* filter = [NSString stringWithString: self.searchBar.text];
     
-    for (IVUser* user in friends) {
+    for (IVUser* user in source) {
         NSString* firstAndLastNames = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
         if ([user.firstName containsString: filter] || [user.lastName containsString: filter] || [firstAndLastNames containsString: filter]) {
             [filteredFriends addObject: user];
-            NSLog(@"%@ %@", user.firstName, user.lastName);
+            //NSLog(@"%@ %@", user.firstName, user.lastName);
         }
     }
     NSLog(@"\n");
@@ -221,11 +246,49 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (void) configureOnlineFriendsArray {
     
-    for (IVUser* user in friends) {
-        if ([user.isOnline isEqual: @1]) {
-            [onlineFriends addObject: user];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [onlineFriends removeAllObjects];
+        onlineArrayOfTitles = [NSMutableArray array];
+        onlineArrayOfGroups = [NSMutableArray array];
+
+        
+        for (IVUser* user in friends) {
+            if ([user.isOnline isEqual: @1]) {
+                [onlineFriends addObject: user];
+            }
         }
-    }
+        
+        NSArray *sortedFriends = [onlineFriends sortedArrayUsingDescriptors: @[[NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending: true]]];
+        [onlineFriends removeAllObjects];
+        onlineFriends = [NSMutableArray arrayWithArray: sortedFriends];
+        
+        for (int i = 0; i < [kCharachters length]; i++) {
+            
+            NSMutableArray* group = [NSMutableArray array];
+            
+            for (IVUser* user in sortedFriends) {
+                
+                if ([[user.lastName substringWithRange: NSMakeRange(0, 1)] isEqualToString: [kCharachters substringWithRange: NSMakeRange(i, 1)]]) {
+                    [group addObject: user];
+                }
+                
+            }
+            
+            if ([group count] != 0) {
+                [onlineArrayOfGroups addObject: group];
+                [onlineArrayOfTitles addObject: [kCharachters substringWithRange: NSMakeRange(i, 1)]];
+            }
+            
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"iv.friendsSetUp" object:nil];
+        NSLog(@"online %d, groups %d", [onlineFriends count], [onlineArrayOfGroups count]);
+        
+        [self setUpUI];
+    });
+
+    
     
 }
 
@@ -242,8 +305,19 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 #pragma mark - UITableViewDataSource
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    NSArray* source = [NSArray array];
+    
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        source = arrayOfTitles;
+    } else {
+        source = onlineArrayOfTitles;
+    }
+    
+    //NSLog(@"sections: %d", [source count]);
+    
     if (!isFiltered) {
-        return [arrayOfTitles count];
+        return [source count];
     }
     else {
         return 1;
@@ -252,7 +326,15 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
-    NSString* title = [arrayOfTitles objectAtIndex: section];
+    NSArray* source = [NSArray array];
+
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        source = arrayOfTitles;
+    } else {
+        source = onlineArrayOfTitles;
+    }
+    
+    NSString* title = [source objectAtIndex: section];
     if (!isFiltered) {
         return title;
 
@@ -266,9 +348,16 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    //NSLog(@"%d", [(NSMutableArray*)[arrayOfGroups objectAtIndex:section] count]);
+    NSArray* source = [NSArray array];
+    
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        source = arrayOfGroups;
+    } else {
+        source = onlineArrayOfGroups;
+    }
+
     if (!isFiltered) {
-        return [(NSMutableArray*)[arrayOfGroups objectAtIndex:section] count];
+        return [(NSMutableArray*)[source objectAtIndex:section] count];
     }
     else {
         return [filteredFriends count];
@@ -282,9 +371,18 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     // Configure the cell...
     if(cell) {
         IVUser* user = [[IVUser alloc] init];
+        
+        NSArray* source = [NSArray array];
+        
+        if (segmentedControl.selectedSegmentIndex == 0) {
+            source = arrayOfGroups;
+        } else {
+            source = onlineArrayOfGroups;
+        }
+
 
         if (!isFiltered) {
-            NSMutableArray* currentGroup = [arrayOfGroups objectAtIndex: indexPath.section];
+            NSMutableArray* currentGroup = [source objectAtIndex: indexPath.section];
             user = (IVUser*)[currentGroup objectAtIndex: indexPath.row];
 
         }

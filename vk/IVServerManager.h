@@ -11,7 +11,7 @@
 
 @interface IVServerManager : NSObject <VKSdkDelegate>
 
-@property (nonatomic, strong) NSArray* arrayOfFriends;
+@property (nonatomic, strong) NSMutableArray* arrayOfFriends;
 
 + (IVServerManager*) sharedManager;
 

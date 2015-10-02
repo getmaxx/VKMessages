@@ -45,7 +45,7 @@
             
             NSArray *scope = [NSArray arrayWithObjects:VK_PER_WALL, VK_PER_MESSAGES, nil];
             [VKSdk authorize:scope revokeAccess:YES];
-            NSLog(@"authorized");
+            //NSLog(@"authorized");
             
             //[[NSNotificationCenter defaultCenter] postNotificationName: @"iv.authorized" object: tempArrayForResponse];
             [self getFriendsFromServer];
@@ -85,10 +85,11 @@
 
 - (void) getFriendsFromServer {
     
+    [self.arrayOfFriends removeAllObjects];
+    
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
         
-        
-        NSLog(@"user_id: %@", [[VKSdk getAccessToken] userId]);
+       //NSLog(@"user_id: %@", [[VKSdk getAccessToken] userId]);
         
         NSDictionary* parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [[VKSdk getAccessToken] userId],         @"user_id",
@@ -103,6 +104,7 @@
                                                       andHttpMethod:@"GET"];
         
         [getFriendsRequest executeWithResultBlock:^(VKResponse * response) {
+            
             //NSLog(@"Json result: %@\n(((((((((((((((((((((((((((((((((((", response.json);
             responseDict = [response.json objectForKey: @"items"];
             //tempArrayForResponse = [NSArray array];
@@ -130,8 +132,11 @@
 - (void) configureFriendsArrayWithServerResponse: (NSArray*) responseAsArray {
     
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+        
         //NSDictionary* friendsDict = [response objectForKey: @"items"];
         //NSLog(@"%@", responseAsArray);
+        [friendsArray removeAllObjects];
+        
         IVUser* user = [[IVUser alloc] init];
         
         user.idOfUser = [(NSDictionary*)[responseAsArray firstObject] objectForKey: @"id"];
@@ -156,9 +161,11 @@
             [friendsArray addObject: user];
         }
         
-        _arrayOfFriends = [NSArray arrayWithArray: friendsArray];
-        //NSLog(@"\n\n\n\nARRAY COUNT\n%d", [_arrayOfFriends count]);
+        [self.arrayOfFriends removeAllObjects];
+        self.arrayOfFriends = [NSMutableArray arrayWithArray: friendsArray];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName: @"iv.setProperty" object: nil];
+        NSLog(@"notification posted");
     });
     
 }
