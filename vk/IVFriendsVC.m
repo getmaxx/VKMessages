@@ -76,12 +76,17 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    
+    [self.navigationController setToolbarHidden: NO animated: NO];
+    
+}
+
 - (void) setUpUI {
     
     UIBarButtonItem *addFriendButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemAdd
                                                                                      target: self
                                                                                      action: @selector(test)];
-    self.navigationController.toolbarHidden = NO;
     self.navigationItem.rightBarButtonItem = addFriendButton;
     
     int onlineFriendsForFirstLaunch = 0;

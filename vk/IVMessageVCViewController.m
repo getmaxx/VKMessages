@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationController.toolbarHidden = YES;
     tint = self.navigationController.navigationBar.barTintColor;
     self.messageTextField.delegate = self;
     //self.messageTextField.frame.size.width = 220;
@@ -108,6 +109,7 @@
 
 -(void) textFieldDidBeginEditing:(UITextField *)textField {
     [messageField becomeFirstResponder];
+    
 }
 
 - (void) textFieldDidEndEditing:(UITextField *)textField {

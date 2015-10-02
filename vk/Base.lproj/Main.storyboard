@@ -87,7 +87,7 @@
                                 </items>
                                 <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="524" width="400" height="44"/>
+                                    <rect key="frame" x="0.0" y="522" width="400" height="44"/>
                                 </variation>
                             </toolbar>
                         </subviews>
