@@ -428,7 +428,9 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self searchBarCancelButtonClicked: self.searchBar];
+    [self.searchBar setShowsCancelButton: NO animated: YES];
+    [self.searchBar resignFirstResponder];
+    [self.tableView reloadData];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -439,12 +441,19 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     } else {
         source = onlineArrayOfGroups;
     }
-
     
-    NSMutableArray* currentGroup = [source objectAtIndex: indexPath.section];
     IVUser* user = [[IVUser alloc] init];
-    user = (IVUser*)[currentGroup objectAtIndex: indexPath.row];
     
+    if (isFiltered) {
+        source = filteredFriends;
+        user = [[IVUser alloc] init];
+        user = (IVUser*)[source objectAtIndex: indexPath.row];
+    } else {
+        NSMutableArray* currentGroup = [source objectAtIndex: indexPath.section];
+        user = [[IVUser alloc] init];
+        user = (IVUser*)[currentGroup objectAtIndex: indexPath.row];
+    }
+   
     IVMessageVCViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"msg"];
     vc.friendToMessage = user;
     
@@ -460,7 +469,10 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 #pragma mark - UISearchBarDelegate
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    //isFiltered = YES;
+    if (![searchBar.text isEqualToString: @""]) {
+        isFiltered = YES;
+    }
+    
     [searchBar setShowsCancelButton: YES animated: YES];
     
     if (![searchBar.text isEqualToString: @""]) {

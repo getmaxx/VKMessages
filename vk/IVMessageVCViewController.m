@@ -33,7 +33,12 @@
 
 - (void) viewDidDisappear:(BOOL)animated {
     
-    self.toolbar.tintColor = [UIColor grayColor];
+    //self.toolbar.tintColor = [UIColor grayColor];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    self.navigationController.toolbar.tintColor = [UIColor grayColor];
+    self.navigationController.toolbarHidden = NO;
 }
 
 - (void) viewDidLoad {
@@ -45,6 +50,7 @@
                forControlEvents: UIControlEventEditingChanged];
     
     self.navigationController.toolbarHidden = YES;
+    self.navigationItem.leftBarButtonItem.title = @"Друзья";
     tint = self.navigationController.navigationBar.barTintColor;
     self.messageTextField.delegate = self;
     //self.messageTextField.frame.size.width = 220;
@@ -83,6 +89,7 @@
     toolbarTextField.borderStyle = UITextBorderStyleRoundedRect;
     toolbarTextField.delegate = self;
     toolbarTextField.tintColor = tint;
+    //toolbarTextField.contentMode = UIEdgeInsetsZero;
     UIBarButtonItem *txtfieldItem=[[UIBarButtonItem alloc]initWithCustomView: toolbarTextField];
     
     sendButton = [[UIBarButtonItem alloc] initWithTitle: @"Отпр."
@@ -92,7 +99,7 @@
     sendButton.enabled = NO;
     [sendButton setTintColor: tint];
     
-    self.navigationController.toolbar.tintColor = tint;
+    //self.navigationController.toolbar.tintColor = tint;
     
     NSArray* barArray = [NSArray arrayWithObjects: txtfieldItem, sendButton, nil];
     
@@ -116,6 +123,7 @@
                             toFriendWithFriendID: self.friendToMessage.idOfUser];
     
     toolbarTextField.text = @"";
+    sendButton.enabled = NO;
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -127,7 +135,7 @@
             NSLog(@"y^ %f", self.view.frame.origin.y + keyboardFrame.size.height);
     //}
     
-    //[self becomeFirstResponder];
+    //sendButton.enabled = NO;
     
 }
 

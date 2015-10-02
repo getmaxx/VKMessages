@@ -75,6 +75,8 @@
 		29D2F6EC1BB9DA9800789B04 /* vk */ = {
 			isa = PBXGroup;
 			children = (
+				29EE8E711BBF10A800D4252B /* Messsages */,
+				29EE8E701BBF109900D4252B /* Friends */,
 				29E56A931BBB38A0005C0C70 /* Model */,
 				29D2F6F01BB9DA9800789B04 /* AppDelegate.h */,
 				29D2F6F11BB9DA9800789B04 /* AppDelegate.m */,
@@ -85,10 +87,6 @@
 				29D2F6FB1BB9DA9800789B04 /* LaunchScreen.storyboard */,
 				29D2F6FE1BB9DA9800789B04 /* Info.plist */,
 				29D2F6ED1BB9DA9800789B04 /* Supporting Files */,
-				29D2F7081BB9EE0200789B04 /* IVFriendsVC.h */,
-				29D2F7091BB9EE0200789B04 /* IVFriendsVC.m */,
-				29E56A941BBB7BCC005C0C70 /* IVMessageVCViewController.h */,
-				29E56A951BBB7BCC005C0C70 /* IVMessageVCViewController.m */,
 			);
 			path = vk;
 			sourceTree = "<group>";
@@ -112,6 +110,24 @@
 				29E56A911BBB3898005C0C70 /* IVUser.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		29EE8E701BBF109900D4252B /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				29D2F7081BB9EE0200789B04 /* IVFriendsVC.h */,
+				29D2F7091BB9EE0200789B04 /* IVFriendsVC.m */,
+			);
+			name = Friends;
+			sourceTree = "<group>";
+		};
+		29EE8E711BBF10A800D4252B /* Messsages */ = {
+			isa = PBXGroup;
+			children = (
+				29E56A941BBB7BCC005C0C70 /* IVMessageVCViewController.h */,
+				29E56A951BBB7BCC005C0C70 /* IVMessageVCViewController.m */,
+			);
+			name = Messsages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
