@@ -42,10 +42,15 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     NSLog(@"ADDED NEW FRIEND");
 }
 
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+        
     currentSegment = 0;
     sourceForTableView = [NSMutableArray array];
     

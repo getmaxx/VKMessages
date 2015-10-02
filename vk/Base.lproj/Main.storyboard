@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--Друзья-->
+        <!--Мои друзья-->
         <scene sceneID="NLU-Vu-ZRZ">
             <objects>
                 <tableViewController id="9Kg-7p-LwH" customClass="IVFriendsVC" sceneMemberID="viewController">
@@ -37,7 +37,7 @@
                             <outlet property="delegate" destination="9Kg-7p-LwH" id="pQw-QT-7kg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Друзья" id="Dxv-9w-gZK"/>
+                    <navigationItem key="navigationItem" title="Мои друзья" id="Dxv-9w-gZK"/>
                     <connections>
                         <outlet property="searchBar" destination="YJ7-ft-4HN" id="mDr-Y7-Gip"/>
                     </connections>
