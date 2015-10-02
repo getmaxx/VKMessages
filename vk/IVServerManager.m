@@ -131,7 +131,7 @@
     
     dispatch_sync(dispatch_get_global_queue(0, 0), ^{
         //NSDictionary* friendsDict = [response objectForKey: @"items"];
-        //NSLog(@"\n\n\n\n\n\n\nFIRST\n%@\n))))))))))))))))))))))))))))))))))))))", [responseAsArray firstObject]);
+        //NSLog(@"%@", responseAsArray);
         IVUser* user = [[IVUser alloc] init];
         
         user.idOfUser = [(NSDictionary*)[responseAsArray firstObject] objectForKey: @"id"];
@@ -151,7 +151,7 @@
             user.photo = [dict objectForKey: @"photo_100"];
             user.isOnline = [dict objectForKey: @"online"];
             //NSLog(@"%@ %@", user.firstName, user.lastName);
-            //[self saveOrLoadPictureOfFriendWithID: user.idOfUser andPhoto: user.photo];
+            [self saveOrLoadPictureOfFriendWithID: user.idOfUser andPhoto: user.photo];
             
             [friendsArray addObject: user];
         }

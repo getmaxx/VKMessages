@@ -17,6 +17,7 @@
 @property (strong, nonatomic) IVUser* friendToMessage;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 @property (weak, nonatomic) IBOutlet UITextField *testTextField;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)sendMessageAction:(id)sender;
 

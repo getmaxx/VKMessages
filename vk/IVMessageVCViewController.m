@@ -72,26 +72,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) configureStaticToolbar {
-    
-    UIToolbar* staticBar = [[UIToolbar alloc] initWithFrame: CGRectMake(0, self.view.bounds.size.height - 44, self.view.bounds.size.width, 44)];
-    
-    staticMessageField = [[UITextField alloc] initWithFrame: CGRectMake(0, 0, 220, 30)];
-    staticMessageField.placeholder = @"Сообщение";
-    staticMessageField.borderStyle = UITextBorderStyleRoundedRect;
-    staticMessageField.delegate = self;
-    
-    UIBarButtonItem *staticSendButton = [[UIBarButtonItem alloc] initWithTitle: @"Отпр."
-                                                                         style: UIBarButtonItemStylePlain
-                                                                        target: self
-                                                                        action: @selector(sendMessageAction:)];
-    
-    
-    UIBarButtonItem *txtfieldItem=[[UIBarButtonItem alloc]initWithCustomView: messageField];
-    staticBar.items = [NSArray arrayWithObjects: txtfieldItem, staticSendButton, nil];
-    
-    [self.view addSubview: staticBar];
-}
 
 #pragma mark - Actions and animations
 

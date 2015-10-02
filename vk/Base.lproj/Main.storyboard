@@ -9,22 +9,22 @@
         <scene sceneID="NLU-Vu-ZRZ">
             <objects>
                 <tableViewController id="9Kg-7p-LwH" customClass="IVFriendsVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" id="xZC-Yh-jPj">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="65" sectionHeaderHeight="28" sectionFooterHeight="28" id="xZC-Yh-jPj">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Поиск" id="YJ7-ft-4HN">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="9Kg-7p-LwH" id="1Yr-sO-b9p"/>
+                            </connections>
                         </searchBar>
-                        <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="oq3-Sa-xPx">
-                            <rect key="frame" x="0.0" y="172" width="600" height="128"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" rowHeight="80" id="rGt-ta-uoC">
-                                <rect key="frame" x="0.0" y="92" width="600" height="80"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" rowHeight="65" id="rGt-ta-uoC">
+                                <rect key="frame" x="0.0" y="136" width="600" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rGt-ta-uoC" id="fCV-dA-qfw">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
@@ -39,7 +39,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Друзья" id="Dxv-9w-gZK"/>
                     <connections>
-                        <outlet property="imgVIew" destination="oq3-Sa-xPx" id="j0P-mz-gKV"/>
                         <outlet property="searchBar" destination="YJ7-ft-4HN" id="mDr-Y7-Gip"/>
                     </connections>
                 </tableViewController>
@@ -76,7 +75,7 @@
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JeV-w8-Y70">
                                             <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="Отпр.">
+                                            <state key="normal" title="sad">
                                                 <color key="titleColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
                                             </state>
                                             <connections>
@@ -91,34 +90,22 @@
                                     <rect key="frame" x="0.0" y="524" width="400" height="44"/>
                                 </variation>
                             </toolbar>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="sdfsdf" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g74-PC-H3a">
-                                <rect key="frame" x="-25" y="-30" width="97" height="30"/>
-                                <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="152" y="113" width="97" height="30"/>
-                                </variation>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="Avw-HX-hPt"/>
-                                <exclude reference="g74-PC-H3a"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="Avw-HX-hPt"/>
-                                <include reference="g74-PC-H3a"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="messageTextField" destination="rmg-44-UY0" id="B34-1e-nmh"/>
                         <outlet property="sendMessage" destination="JeV-w8-Y70" id="eMP-Kl-vUN"/>
-                        <outlet property="testTextField" destination="g74-PC-H3a" id="Wkt-yf-qFw"/>
                         <outlet property="toolbar" destination="Avw-HX-hPt" id="cGV-RH-ZUD"/>
                     </connections>
                 </viewController>
