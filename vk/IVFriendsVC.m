@@ -415,7 +415,16 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSMutableArray* currentGroup = [arrayOfGroups objectAtIndex: indexPath.section];
+    NSArray* source = [NSArray array];
+    
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        source = arrayOfGroups;
+    } else {
+        source = onlineArrayOfGroups;
+    }
+
+    
+    NSMutableArray* currentGroup = [source objectAtIndex: indexPath.section];
     IVUser* user = [[IVUser alloc] init];
     user = (IVUser*)[currentGroup objectAtIndex: indexPath.row];
     
