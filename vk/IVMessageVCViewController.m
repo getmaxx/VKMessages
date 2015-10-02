@@ -15,8 +15,11 @@
     CGRect          keyboardFrame;
     UIToolbar*      test;
     UITextField*    messageField;
-    UITextField*    staticMessageField;
+    UITextField*    toolbarTextField;
     UIColor*        tint;
+    UIBarButtonItem *sendButton;
+    
+    BOOL isEditing;
     
 }
 
@@ -28,8 +31,18 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (void)viewDidLoad {
+- (void) viewDidDisappear:(BOOL)animated {
+    
+    self.toolbar.tintColor = [UIColor grayColor];
+}
+
+- (void) viewDidLoad {
     [super viewDidLoad];
+    
+    isEditing = NO;
+    [toolbarTextField addTarget: self
+                         action: @selector(textFieldDidChange:)
+               forControlEvents: UIControlEventEditingChanged];
     
     self.navigationController.toolbarHidden = YES;
     tint = self.navigationController.navigationBar.barTintColor;
@@ -48,28 +61,43 @@
                                                  name: UIKeyboardWillChangeFrameNotification
                                                object: nil];
     
-    //[self configureStaticToolbar];
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(textFieldDidChange:)
+                                                 name: UITextFieldTextDidChangeNotification
+                                               object: nil];
+
+    [self setUpToolbar];
     
-    UIToolbar* testBar = [[UIToolbar alloc] initWithFrame: CGRectMake(0, 0, self.view.bounds.size.width, 44)];
+}
+
+- (void) setUpToolbar {
     
-    messageField = [[UITextField alloc] initWithFrame: CGRectMake(0, 0, 220, 30)];
-    messageField.placeholder = @"Сообщение";
-    messageField.borderStyle = UITextBorderStyleRoundedRect;
-    //messageField.delegate = self;
+    UIToolbar* testBar = [[UIToolbar alloc] initWithFrame: CGRectMake(0,
+                                                                      self.view.bounds.size.height - 44,
+                                                                      self.view.bounds.size.width,
+                                                                      44)];
+    testBar.tintColor = tint;
     
-    UIBarButtonItem *sendButton = [[UIBarButtonItem alloc] initWithTitle: @"Отпр."
-                                                                   style: UIBarButtonItemStylePlain
-                                                                  target: self
-                                                                  action: @selector(sendMessageAction:)];
+    toolbarTextField = [[UITextField alloc] initWithFrame: CGRectMake(0, 0, 220, 30)];
+    toolbarTextField.placeholder = @"Сообщение";
+    toolbarTextField.borderStyle = UITextBorderStyleRoundedRect;
+    toolbarTextField.delegate = self;
+    toolbarTextField.tintColor = tint;
+    UIBarButtonItem *txtfieldItem=[[UIBarButtonItem alloc]initWithCustomView: toolbarTextField];
+    
+    sendButton = [[UIBarButtonItem alloc] initWithTitle: @"Отпр."
+                                                  style: UIBarButtonItemStylePlain
+                                                 target: self
+                                                 action: @selector(sendMessageAction:)];
+    sendButton.enabled = NO;
     [sendButton setTintColor: tint];
     
+    self.navigationController.toolbar.tintColor = tint;
     
-    UIBarButtonItem *txtfieldItem=[[UIBarButtonItem alloc]initWithCustomView: messageField];
-    testBar.items = [NSArray arrayWithObjects: txtfieldItem, sendButton, nil];
-    //self.toolbar.items = [NSArray arrayWithObjects: txtfieldItem, sendButton, nil];
-    self.messageTextField.inputAccessoryView = testBar;
-    //self.TextField.inputAccessoryView = test;
+    NSArray* barArray = [NSArray arrayWithObjects: txtfieldItem, sendButton, nil];
     
+    testBar.items = barArray;
+    [self.view addSubview: testBar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,40 +110,48 @@
 
 - (IBAction)sendMessageAction:(id)sender {
     
-    NSString* msg = @"";
-    if (messageField.text) {
-        msg = messageField.text;
-    }
-        
+    NSString* msg = toolbarTextField.text;
+    
     [[IVServerManager sharedManager] sendMessage: msg
                             toFriendWithFriendID: self.friendToMessage.idOfUser];
     
-    self.messageTextField.text = @"";
-    messageField.text = @"";
+    toolbarTextField.text = @"";
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     [super touchesBegan:touches withEvent:event];
-    //[self.messageTextField resignFirstResponder];
-    //[self.testTextField resignFirstResponder];
-    //[messageField resignFirstResponder];
-    [messageField resignFirstResponder];
-    [self becomeFirstResponder];
+    
+    //if ([toolbarTextField isFirstResponder]) {
+        [toolbarTextField resignFirstResponder];
+            NSLog(@"y^ %f", self.view.frame.origin.y + keyboardFrame.size.height);
+    //}
+    
+    //[self becomeFirstResponder];
     
 }
 
 #pragma mark - UITextFieldDelegate
 
--(void) textFieldDidBeginEditing:(UITextField *)textField {
-    [messageField becomeFirstResponder];
-    
+- (void) textFieldDidBeginEditing:(UITextField *)textField {
+    //sendButton.enabled = YES;
 }
 
 - (void) textFieldDidEndEditing:(UITextField *)textField {
+    if ([textField.text isEqualToString: @""]) {
+        sendButton.enabled = NO;
+    }
+}
+
+- (void) textFieldDidChange: (UITextField *) theTextField{
     
-    [textField resignFirstResponder];
-    self.messageTextField.text = messageField.text;
+    if (![toolbarTextField.text isEqualToString: @""]) {
+        sendButton.enabled = YES;
+    } else {
+        sendButton.enabled = NO;
+
+    }
+
 }
 
 - (void) keyboardDidChanged:(NSNotification *)notification {
@@ -123,13 +159,23 @@
     keyboardRect = [self.view convertRect:keyboardRect fromView:nil]; //this is it!
     
     keyboardFrame = keyboardRect;
-    if ([self.messageTextField isFirstResponder]) {
-        //[staticMessageField resignFirstResponder];
-        [messageField becomeFirstResponder];
-    }
+    isEditing = !isEditing;
+    
+    if (isEditing) {
+        self.view.frame = CGRectMake(self.view.frame.origin.x,
+                                     self.view.frame.origin.y - keyboardFrame.size.height - self.toolbar.frame.size.height,
+                                     self.view.frame.size.width,
+                                     self.view.frame.size.height);
 
-    
-    
+    }
+    else {
+        self.view.frame = CGRectMake(self.view.frame.origin.x,
+                                     self.view.frame.origin.y + keyboardFrame.size.height,// + self.toolbar.frame.size.height,
+                                     self.view.frame.size.width,
+                                     self.view.frame.size.height);
+
+    }
+    NSLog(@"y k %f", self.view.frame.origin.y + keyboardFrame.size.height);
 }
 
 - (void)dealloc { [[NSNotificationCenter defaultCenter] removeObserver:self]; }

@@ -57,57 +57,8 @@
                     <view key="view" contentMode="scaleToFill" id="55d-NG-Qi9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="400" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="Avw-HX-hPt">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" id="ckM-2F-wFI">
-                                        <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Сообщение" textAlignment="natural" minimumFontSize="17" id="rmg-44-UY0">
-                                            <rect key="frame" x="228" y="110" width="97" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="18"/>
-                                            <textInputTraits key="textInputTraits"/>
-                                        </textField>
-                                        <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" id="6EH-Da-qDn">
-                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JeV-w8-Y70">
-                                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="sad">
-                                                <color key="titleColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="sendMessageAction:" destination="QlO-SU-kkC" eventType="touchUpInside" id="BkP-hP-Jrn"/>
-                                            </connections>
-                                        </button>
-                                        <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    </barButtonItem>
-                                </items>
-                                <color key="tintColor" red="0.16548227579999999" green="0.15982935700000001" blue="0.48989898990000003" alpha="1" colorSpace="calibratedRGB"/>
-                                <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="522" width="400" height="44"/>
-                                </variation>
-                            </toolbar>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="Avw-HX-hPt"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="subviews">
-                                <include reference="Avw-HX-hPt"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <connections>
-                        <outlet property="messageTextField" destination="rmg-44-UY0" id="B34-1e-nmh"/>
-                        <outlet property="sendMessage" destination="JeV-w8-Y70" id="eMP-Kl-vUN"/>
-                        <outlet property="toolbar" destination="Avw-HX-hPt" id="cGV-RH-ZUD"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N6R-u3-ZIY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

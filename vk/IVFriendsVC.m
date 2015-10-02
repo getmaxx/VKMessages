@@ -78,8 +78,8 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
 
 - (void) viewDidAppear:(BOOL)animated {
     
+    self.navigationController.toolbar.tintColor = [UIColor grayColor];
     [self.navigationController setToolbarHidden: NO animated: NO];
-    
 }
 
 - (void) setUpUI {
@@ -113,7 +113,7 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     UIBarButtonItem *segmentedControlButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(UIView *)segmentedControl];
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     NSArray *barArray = [NSArray arrayWithObjects: flexibleSpace, segmentedControlButtonItem, flexibleSpace, nil];
-    self.navigationController.toolbar.tintColor = [UIColor grayColor];
+    
     
     self.toolbarItems = barArray;
 
