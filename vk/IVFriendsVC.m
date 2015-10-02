@@ -46,13 +46,12 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     return UIStatusBarStyleLightContent;
 }
 
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
         
     currentSegment = 0;
-    sourceForTableView = [NSMutableArray array];
+    //sourceForTableView = [NSMutableArray array];
     
     isFiltered = NO;
     self.searchBar.text = @"";
@@ -85,10 +84,18 @@ static NSString* const kCharachters = @"АБВГДЕЖЗИКЛМНОПРСТУФ
     self.navigationController.toolbarHidden = NO;
     self.navigationItem.rightBarButtonItem = addFriendButton;
     
-    NSString* numberOfFriends = [NSString stringWithFormat:@"%d друзей", [friends count]];
-    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", [onlineFriends count]];
+    int onlineFriendsForFirstLaunch = 0;
+    for (IVUser* user in friends) {
+        if ([user.isOnline isEqual: @1]) {
+            onlineFriendsForFirstLaunch++;
+        }
+    }
+
     
-    //NSLog(@"ALL:%d  ONLINE:%d", [friends count], numberOfOnlineFriends);
+    NSString* numberOfFriends = [NSString stringWithFormat:@"%d друзей", [friends count]];
+    NSString* numberOfOnlineFriendsString = [NSString stringWithFormat:@"%d онлайн", onlineFriendsForFirstLaunch];
+    
+    NSLog(@"ALL:%d  ONLINE:%d", [friends count], [onlineFriends count]);
     
     NSArray *segItemsArray = [NSArray arrayWithObjects: numberOfFriends, numberOfOnlineFriendsString, nil];
     segmentedControl = [[UISegmentedControl alloc] initWithItems:segItemsArray];
